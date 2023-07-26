@@ -1,3 +1,4 @@
+/* eslint-disable */
 <template>
   <div>
     <nav class="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
@@ -9,7 +10,7 @@
             </span>
           </a>
           
-          <a href="/" class="flex">
+          <a href="/login" class="flex">
             <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
               로그인
             </span>
@@ -23,3 +24,9 @@
     </nav>
   </div>
 </template>
+
+<script>
+export default {
+name: 'Main',
+};
+</script>

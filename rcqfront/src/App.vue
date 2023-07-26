@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 <template>
   <div>
     <div class="flex dark:bg-gray-800 scrollbar-hide">
@@ -10,14 +11,14 @@
 </template>
 
 <script>
-import Navbar from './components/NavBar.vue';
+import Navbar from './components/NavBar.vue'
 
 export default {
   name: 'App',
   components: {
     Navbar
   }
-};
+}
 </script>
 
 <style>
