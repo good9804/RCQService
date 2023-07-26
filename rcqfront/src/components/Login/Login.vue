@@ -54,6 +54,14 @@
               Forgot Password?
             </a>
           </div>
+          <div class="flex items-center justify-center">
+            <a
+              class="inline-block align-baseline font-bold text-xl text-blue-500 hover:text-blue-800"
+              href="/users/signup"
+            >
+              Sign Up
+            </a>
+          </div>
         </form>
       </div>
     </div>
