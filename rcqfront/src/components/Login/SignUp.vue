@@ -9,6 +9,7 @@
             >
               Email</label
             >
+            <div class="flex justify-between">
             <input
               id="identity"
               class="shadow appearance-none borderrounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
@@ -17,6 +18,13 @@
               aria-describedby="emailHelp"
               v-model="email"
             />
+            <button
+              class="bg-blue-600 hover:bg-black text-white font-bold py-2 text-sm px-4 rounded focus:outline-none focus:shadow-outline"
+              type="submit"
+            >
+              중복 확인
+            </button>
+        </div>
             <span class="text-xs text-red-700" id="emailHelp"></span>
           </div>
   
