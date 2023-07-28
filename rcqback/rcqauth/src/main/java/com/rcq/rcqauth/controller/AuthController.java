@@ -1,9 +1,7 @@
 package com.rcq.rcqauth.controller;
 
-import com.rcq.rcqauth.dto.apiResponseDto;
 import com.rcq.rcqauth.dto.signUpUserDto;
 import com.rcq.rcqauth.entity.Response;
-import com.rcq.rcqauth.entity.User;
 import com.rcq.rcqauth.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
