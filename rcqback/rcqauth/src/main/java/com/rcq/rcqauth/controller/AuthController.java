@@ -1,5 +1,6 @@
 package com.rcq.rcqauth.controller;
 
+import com.rcq.rcqauth.dto.loginUserDto;
 import com.rcq.rcqauth.dto.signUpUserDto;
 import com.rcq.rcqauth.entity.Response;
 import com.rcq.rcqauth.service.AuthService;
@@ -22,7 +23,7 @@ public class AuthController {
         this.authService = authService;
     }
 
-    @GetMapping("/user/signup/check")
+    @GetMapping("/user/api/signup/check")
     public ResponseEntity<Response> emailDuplicateCheck(@RequestParam("mail") String mail){
         Response response=new Response();
         if(authService.mailCheck(mail)==0){
@@ -42,7 +43,7 @@ public class AuthController {
         } return new ResponseEntity<>(response, response.getHttpStatus());
     }
 
-    @PostMapping(value = "/user/signup" , consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/user/api/signup" , consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Response> signUpUser(@RequestBody signUpUserDto signupuserdto) {
         Response response=new Response();
      authService.saveUser(signupuserdto.getUsermail(), signupuserdto.getPassword());
@@ -52,6 +53,37 @@ public class AuthController {
                 .message("회원가입 성공")
                 .result(null)
                 .count(0).build();
+        return new ResponseEntity<>(response, response.getHttpStatus());
+    }
+
+    @GetMapping(value = "/user/api/login",consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Response> loginUser(@RequestBody loginUserDto loginUserDto){
+        Response response=new Response();
+        int userLoginResult=authService.checkUserLogin(loginUserDto.getUsermail(), loginUserDto.getPassword());
+        if(userLoginResult==0){
+            response=Response.builder()
+                    .code(HttpStatus.OK.value())
+                    .httpStatus(HttpStatus.OK)
+                    .message("로그인 성공")
+                    .result(null)
+                    .count(0).build();
+        }
+        else if(userLoginResult==1){
+            response=Response.builder()
+                    .code((HttpStatus.NOT_FOUND.value()))
+                    .httpStatus(HttpStatus.NOT_FOUND)
+                    .message("비밀번호가 일치하지 않습니다")
+                    .result(null)
+                    .count(0).build();
+        }
+        else{
+            response=Response.builder()
+                    .code((HttpStatus.NOT_FOUND.value()))
+                    .httpStatus(HttpStatus.NOT_FOUND)
+                    .message("ID가 존재하지않습니다")
+                    .result(null)
+                    .count(0).build();
+        }
         return new ResponseEntity<>(response, response.getHttpStatus());
     }
 
