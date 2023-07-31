@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.transaction.Transactional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -28,6 +30,8 @@ class AuthServiceTest {
     }
 
     @Test
+    @DisplayName("User 회원가입")
+    @Transactional
     void saveUser() {
         authService.saveUser("sdsd@naver.com","1234");
         assertThat(userRepository).isNotNull();
@@ -35,6 +39,7 @@ class AuthServiceTest {
     }
     @Test
     @DisplayName("로그인 mail check 테스트")
+    @Transactional
     void checkUserMail(){
         authService.saveUser("test@gmail.com","1234");
         assertThat(authService.checkUserMail("test@gmail.com")).isNotNull();
@@ -42,6 +47,7 @@ class AuthServiceTest {
 
     @Test
     @DisplayName("로그인 password check 테스트")
+    @Transactional
     void checkUserPassword(){
         authService.saveUser("test4@gmail.com","1234");
         User user=authService.checkUserMail("test4@gmail.com");
@@ -51,6 +57,7 @@ class AuthServiceTest {
 
     @Test
     @DisplayName("로그인 check 테스트")
+    @Transactional
     void checkUserLogin(){
         authService.saveUser("test3@gmail.com","1234");
 
