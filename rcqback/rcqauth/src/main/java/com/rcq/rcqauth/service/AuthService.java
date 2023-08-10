@@ -1,6 +1,8 @@
 package com.rcq.rcqauth.service;
 
 import com.rcq.rcqauth.config.WebSecurityConfig;
+import com.rcq.rcqauth.dto.loginUserDto;
+import com.rcq.rcqauth.dto.signUpUserDto;
 import com.rcq.rcqauth.entity.User;
 import com.rcq.rcqauth.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,26 +19,22 @@ public class AuthService {
 
     @Autowired
     private WebSecurityConfig webSecurityConfig;
-    public int mailCheck(String mail){
-        User user = userRepository.findByusermail(mail);
-        if(user != null) {
-            // 이메일이 이미 존재하는 경우
-            return 0;
-        } else {
-            // 이메일이 존재하지 않는 경우
-            return 1;
-        }
+    public boolean mailCheck(String mail){
+        return userRepository.existsByusermail(mail);
+    }
+    public boolean nicknameCheck(String nickname){
+        return userRepository.existsBynickname(nickname);
     }
 
     @Transactional
-    public User saveUser(String useremail, String password) {
+    public User saveUser(signUpUserDto signupuserdto) {
         // 새로운 사용자 객체 생성
         User user = new User();
-        user.setUsermail(useremail);
-        user.setPassword(webSecurityConfig.getPasswordEncoder().encode(password));
-
-
+        user.setUsermail(signupuserdto.getUsermail());
+        user.setPassword(webSecurityConfig.getPasswordEncoder().encode(signupuserdto.getPassword()));
+        user.setNickname(signupuserdto.getNickname());
         // 사용자 저장
+
         return userRepository.save(user);
     }
     public boolean checkUserPassword(String rawPassword,String hashPassword){
@@ -46,10 +44,10 @@ public class AuthService {
         return userRepository.findByusermail(usermail);
     }
 
-    public int  checkUserLogin(String usermail,String password){
-        User user=checkUserMail(usermail);
+    public int  checkUserLogin(loginUserDto loginuserdto){
+        User user=checkUserMail(loginuserdto.getUsermail());
         if(user!=null){
-            if(checkUserPassword(password,user.getPassword())){
+            if(checkUserPassword(loginuserdto.getPassword(), user.getPassword())){
                 return 0;
             }
             return 1;

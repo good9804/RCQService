@@ -1,8 +1,10 @@
 package com.rcq.rcqauth.service;
 
 import com.rcq.rcqauth.dto.loginUserDto;
+import com.rcq.rcqauth.dto.signUpUserDto;
 import com.rcq.rcqauth.entity.User;
 import com.rcq.rcqauth.repository.UserRepository;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,35 +24,47 @@ class AuthServiceTest {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private AuthService authService;
+    private   AuthService authService;
 
-    @Test
-    void mailCheck() {
-
-    }
-
-    @Test
-    @DisplayName("User 회원가입")
+    @BeforeEach
     @Transactional
-    void saveUser() {
-        authService.saveUser("sdsd@naver.com","1234");
-        assertThat(userRepository).isNotNull();
-        assertThat(authService.mailCheck("sdsd@naver.com")).isEqualTo("0");
+    public void beforeEach() {
+        signUpUserDto signUpUserDto = new signUpUserDto();
+        signUpUserDto.setUsermail("test@gmail.com");
+        signUpUserDto.setPassword("1234");
+        signUpUserDto.setNickname("testuser");
+        authService.saveUser(signUpUserDto);
+    }
+
+    @Test
+    @DisplayName("메일 중복체크")
+    @Transactional
+    void emailDuplicateCheck() {
+
+        assertThat(authService.mailCheck("test@gmail.com")).isEqualTo(true);
+        assertThat(authService.mailCheck("sdsd@naver.com")).isEqualTo(false);
     }
     @Test
-    @DisplayName("로그인 mail check 테스트")
+    @DisplayName("닉네임 중복체크")
+    @Transactional
+    void nicknameDuplicateCheck() {
+        assertThat(authService.nicknameCheck("testuser")).isEqualTo(true);
+        assertThat(authService.nicknameCheck("테스트2")).isEqualTo(false);
+    }
+    @Test
+    @DisplayName("로그인시 존재하는 계정 mail check 테스트")
     @Transactional
     void checkUserMail(){
-        authService.saveUser("test@gmail.com","1234");
         assertThat(authService.checkUserMail("test@gmail.com")).isNotNull();
+        assertThat(authService.mailCheck("sdsd@naver.com")).isEqualTo(false);
     }
 
     @Test
     @DisplayName("로그인 password check 테스트")
     @Transactional
     void checkUserPassword(){
-        authService.saveUser("test4@gmail.com","1234");
-        User user=authService.checkUserMail("test4@gmail.com");
+
+        User user=userRepository.findByusermail("test@gmail.com");
 
         assertThat(authService.checkUserPassword("1234",user.getPassword())).isEqualTo(true);
     }
@@ -59,10 +73,10 @@ class AuthServiceTest {
     @DisplayName("로그인 check 테스트")
     @Transactional
     void checkUserLogin(){
-        authService.saveUser("test3@gmail.com","1234");
-
-
-        assertThat(authService.checkUserLogin("test3@gmail.com","1234")).isEqualTo(0);
+        loginUserDto loginuserdto=new loginUserDto();
+        loginuserdto.setUsermail("test@gmail.com");
+        loginuserdto.setPassword("1234");
+        assertThat(authService.checkUserLogin(loginuserdto)).isEqualTo(0);
     }
 
 }

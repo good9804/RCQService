@@ -11,4 +11,5 @@ import java.io.Serializable;
 public class signUpUserDto implements Serializable {
     private String usermail;
     private String password;
+    private String nickname;
 }
