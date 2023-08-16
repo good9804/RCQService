@@ -1,4 +1,4 @@
-package com.rcq.rcqauth.entity;
+/*package com.rcq.rcqauth.entity;
 
 import lombok.Data;
 
@@ -10,4 +10,4 @@ import javax.persistence.Table;
 @Table(name="problems")
 public class Problem {
 
-}
+}*/

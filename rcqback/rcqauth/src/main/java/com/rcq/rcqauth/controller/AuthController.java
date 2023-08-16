@@ -23,7 +23,7 @@ public class AuthController {
         this.authService = authService;
     }
 
-    @GetMapping("/user/api/signup/check")
+    @GetMapping("/user/api/signup/mailcheck")
     public ResponseEntity<ApiResponse> emailDuplicateCheck(@RequestParam("mail") String mail){
         ApiResponse apiResponse=new ApiResponse();
         if(!authService.mailCheck(mail)){
@@ -33,6 +33,8 @@ public class AuthController {
         }
         return new ResponseEntity<>(apiResponse, apiResponse.getHttpStatus());
     }
+
+    @GetMapping("/user/api/signup/nicknamecheck")
     public ResponseEntity<ApiResponse> nicknameDuplicateCheck(@RequestParam("nickname") String nickname){
         ApiResponse apiResponse=new ApiResponse();
         if(!authService.nicknameCheck(nickname)){
@@ -53,7 +55,7 @@ public class AuthController {
         return new ResponseEntity<>(apiResponse, apiResponse.getHttpStatus());
     }
 
-    @GetMapping(value = "/user/api/login",consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/user/api/login",consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ApiResponse> loginUser(@RequestBody loginUserDto loginUserDto){
         ApiResponse apiResponse=new ApiResponse();
         int userLoginResult=authService.checkUserLogin(loginUserDto);

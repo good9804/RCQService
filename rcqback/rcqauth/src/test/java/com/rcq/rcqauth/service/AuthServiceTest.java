@@ -24,7 +24,7 @@ class AuthServiceTest {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private   AuthService authService;
+    private  AuthService authService;
 
     @BeforeEach
     @Transactional
