@@ -10,15 +10,21 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name="problem")
-public class Problem implements Serializable {
+@Table(name="problemlist")
+public class ProblemList implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String question;
 
-    private String answer;
+    @Column(name = "userid")
+    private String userid;
 
-    private Long problemlistid;
+    @Column(name = "title")
+    private String title;
+
+    @OneToMany
+    @JoinColumn(name = "problem") // 다른 테이블과의 관계 매핑
+    private List<Problem> list;
+
 
 }
